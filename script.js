@@ -3,7 +3,7 @@
     var form = document.querySelector('form');
     var tasksContainer = document.querySelector('#tasks');
     var taskManager = createTaskManager();
-
+    document.getElementById("edit-task-button").disabled = true;
     form && form.addEventListener('submit', addTask);
     taskManager.onChange(update);
     loadTasks();
@@ -38,13 +38,22 @@
         tr.appendChild(createTableCell(task.spent));
         tr.appendChild(createTableCell(task.remaining));
         tr.appendChild(createTableCell(task.done() && '&#10004;'));
-        var deleteLink = document.createElement('a')
-
-        deleteLink.innerHTML = "DELETE"
+        var deleteCell = document.createElement('td');
+        var deleteLink = document.createElement('a');
+        deleteLink.innerHTML = "DELETE";
         deleteLink.addEventListener('click', function() {
             taskManager.remove(task);
         });
-        tr.appendChild(deleteLink);
+        deleteCell.appendChild(deleteLink);
+        tr.appendChild(deleteCell);
+        var editCell = document.createElement('td');
+        var editLink = document.createElement('a');
+        editLink.innerHTML = "EDIT";
+        editLink.addEventListener('click', function() {
+            alert('hi stupid')
+        });
+        editCell.appendChild(editLink)
+        tr.appendChild(editCell);
         return tr;
     }
 
@@ -64,5 +73,9 @@
                 taskManager.create(task.category, task.title, task.priority, task.estimate);
             });
         }
+    }
+
+    function fillEditForm(task) {
+
     }
 })(window);
