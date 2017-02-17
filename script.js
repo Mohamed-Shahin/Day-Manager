@@ -6,6 +6,7 @@
     var taskManager = createTaskManager();
     document.getElementById("edit-task-button").disabled = true;
     form && form.addEventListener('submit', addTask);
+    editForm && editForm.addEventListener('submit', editTask)
     taskManager.onChange(update);
     loadTasks();
 
@@ -36,6 +37,7 @@
         tr.appendChild(createTableCell(task.title));
         tr.appendChild(createTableCell(task.priority));
         tr.appendChild(createTableCell(task.estimate));
+        alert(task.spent);
         tr.appendChild(createTableCell(task.spent));
         tr.appendChild(createTableCell(task.remaining));
         tr.appendChild(createTableCell(task.done() && '&#10004;'));
@@ -81,5 +83,19 @@
         editForm.querySelectorAll('input:not([type="submit"]').forEach(function(input) {
             input.value = task[input.name];
         });
+        document.getElementById("task-index").value = taskManager.getAll().indexOf(task);
+    }
+
+    function editTask(event) {
+        event.preventDefault();
+        var index = document.getElementById("task-index").value;
+        var task = {};
+        editForm.querySelectorAll('input:not([type="submit"]').forEach(function(input) {
+            task[input.name] = input.value;
+            input.value = null;
+        });
+
+        taskManager.updateTask(index, task);
+
     }
 })(window);

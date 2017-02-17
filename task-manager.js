@@ -9,6 +9,14 @@ var createTaskManager = function() {
         return task;
     };
 
+    function updateTask(i, task) {
+        remove(tasks[i])
+        var newTask = new Task(task.category, task.title, task.priority, task.estimate);
+        newTask.track(parseInt(task.spent));
+        tasks.splice(i, 0, newTask);
+        onChangeCallback && onChangeCallback(tasks);
+    }
+
     function find(query) {
         query && query.toLowerCase && (query = query.toLowerCase());
 
@@ -30,15 +38,7 @@ var createTaskManager = function() {
     function remove(index) {
         if (typeof index !== 'number') {
             index = tasks.indexOf(index);
-
-            //for (var i = 0; i < tasks.length; i++) {
-            // if (tasks[i] === index) {
-            //   index = i;
-            // break;
-            //}
-            // }
         }
-
         if (index >= 0 && index < tasks.length) {
             tasks.splice(index, 1);
             onChangeCallback && onChangeCallback(tasks);
@@ -65,6 +65,7 @@ var createTaskManager = function() {
         get: get,
         getAll: getAll,
         remove: remove,
-        onChange: onChange
+        onChange: onChange,
+        updateTask: updateTask
     };
 };
