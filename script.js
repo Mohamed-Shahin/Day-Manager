@@ -1,10 +1,12 @@
 (function(scope) {
     "use strict";
     var form = document.querySelector('form');
+    var editForm = document.getElementById("edit-task");
     var tasksContainer = document.querySelector('#tasks');
     var taskManager = createTaskManager();
-
+    document.getElementById("edit-task-button").disabled = true;
     form && form.addEventListener('submit', addTask);
+    editForm && editForm.addEventListener('submit', editTask)
     taskManager.onChange(update);
     loadTasks();
 
@@ -38,13 +40,22 @@
         tr.appendChild(createTableCell(task.spent));
         tr.appendChild(createTableCell(task.remaining));
         tr.appendChild(createTableCell(task.done() && '&#10004;'));
-        var deleteLink = document.createElement('a')
-
-        deleteLink.innerHTML = "DELETE"
+        var deleteCell = document.createElement('td');
+        var deleteLink = document.createElement('a');
+        deleteLink.innerHTML = "DELETE";
         deleteLink.addEventListener('click', function() {
             taskManager.remove(task);
         });
-        tr.appendChild(deleteLink);
+        deleteCell.appendChild(deleteLink);
+        tr.appendChild(deleteCell);
+        var editCell = document.createElement('td');
+        var editLink = document.createElement('a');
+        editLink.innerHTML = "EDIT";
+        editLink.addEventListener('click', function() {
+            fillEditForm(task)
+        });
+        editCell.appendChild(editLink)
+        tr.appendChild(editCell);
         return tr;
     }
 
@@ -64,5 +75,26 @@
                 taskManager.create(task.category, task.title, task.priority, task.estimate);
             });
         }
+    }
+
+    function fillEditForm(task) {
+        document.getElementById("edit-task-button").disabled = false;
+        editForm.querySelectorAll('input:not([type="submit"]').forEach(function(input) {
+            input.value = task[input.name];
+        });
+        document.getElementById("task-index").value = taskManager.getAll().indexOf(task);
+    }
+
+    function editTask(event) {
+        event.preventDefault();
+        var index = document.getElementById("task-index").value;
+        var task = {};
+        editForm.querySelectorAll('input:not([type="submit"]').forEach(function(input) {
+            task[input.name] = input.value;
+            input.value = null;
+        });
+
+        taskManager.updateTask(index, task);
+
     }
 })(window);
