@@ -1,6 +1,7 @@
 (function(scope) {
     "use strict";
     var form = document.querySelector('form');
+    var editForm = document.getElementById("edit-task");
     var tasksContainer = document.querySelector('#tasks');
     var taskManager = createTaskManager();
     document.getElementById("edit-task-button").disabled = true;
@@ -50,7 +51,7 @@
         var editLink = document.createElement('a');
         editLink.innerHTML = "EDIT";
         editLink.addEventListener('click', function() {
-            alert('hi stupid')
+            fillEditForm(task)
         });
         editCell.appendChild(editLink)
         tr.appendChild(editCell);
@@ -76,6 +77,9 @@
     }
 
     function fillEditForm(task) {
-
+        document.getElementById("edit-task-button").disabled = false;
+        editForm.querySelectorAll('input:not([type="submit"]').forEach(function(input) {
+            input.value = task[input.name];
+        });
     }
 })(window);
