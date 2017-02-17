@@ -37,7 +37,6 @@
         tr.appendChild(createTableCell(task.title));
         tr.appendChild(createTableCell(task.priority));
         tr.appendChild(createTableCell(task.estimate));
-        alert(task.spent);
         tr.appendChild(createTableCell(task.spent));
         tr.appendChild(createTableCell(task.remaining));
         tr.appendChild(createTableCell(task.done() && '&#10004;'));

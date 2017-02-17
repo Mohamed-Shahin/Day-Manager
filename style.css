@@ -1,0 +1,39 @@
+label {
+    display: block;
+    padding-top: 6px;
+    margin-bottom: 5px;
+    padding-left: 15px;
+}
+
+form {
+    border: 1px black solid;
+    width: 30%;
+}
+
+#edit-task-button {
+    margin-left: 120px;
+    width: 75px;
+}
+
+#form-button {
+    margin-left: 120px;
+    width: 75px;
+}
+
+table {
+    border: 1px black solid;
+}
+
+td {
+    padding: 5px;
+    border: 1px black solid;
+}
+
+tr {
+    padding: 7px;
+    border: 1px black solid;
+}
+
+section {
+    margin-bottom: 15px;
+}
